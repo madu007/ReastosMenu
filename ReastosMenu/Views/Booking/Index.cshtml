@@ -1,0 +1,60 @@
+﻿@model List<ReastosMenu.Models.BookingModel>
+@{
+    Layout = "_AdminLayout";
+    int index = 0;
+}
+<!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Customers Bookings</h6>
+            <a href="/Booking/AddBooking">Add Booking</a>
+        </div>
+        <div class="table-responsive">
+            @if (Model != null && Model.Any())
+            {
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-white">
+                            <th scope="col">S/N</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Date & Time</th>
+                            <th scope="col">Number & People</th>
+                            <th scope="col">Special Request</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var book in Model)
+                        {
+                            <tr>
+                                @{
+                                    index++;
+                                }
+                                <td>
+                                    @index
+                                </td>
+                                <td>@book.Name</td>
+                                <td>@book.Email</td>
+                                <td>@book.DateAndTime</td>
+                                <td>@book.NumberOfPeople</td>
+                                <td>@book.SpecialRequest</td>
+                                <td>
+                                    <form method="post" asp-controller="Booking" asp-action="DeleteBook" asp-route-id="@book.Id">
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Booking not found!</p>
+            }
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->

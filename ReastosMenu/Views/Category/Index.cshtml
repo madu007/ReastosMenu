@@ -1,0 +1,70 @@
+﻿@model List<ReastosMenu.Models.CategoryModel>
+@* @model List<CategoryModel> *@
+
+@{
+    Layout = "_AdminLayout";
+    int index = 0;
+}
+<!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">View Categories</h6>
+            <a href="/Category/AddCategory">Add Category</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-white">
+                        <th scope="col">S/N</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            @{
+                                index++;
+                            }
+                            <td>
+                                @index
+                            </td>
+                            <td>@category.Title</td>
+                            <td>@category.Description</td>
+                            <td><a class="btn btn-sm btn-primary" href="/Category/EditCategory/@category.Id">Edit</a></td>
+                            <td>
+                                <form method="post" asp-controller="Category" asp-action="DeleteCategory" asp-route-id="@category.Id">
+                                   <button type="submit" class="btn btn-danger">Delete</button>
+                               </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->
+
+@* <script>
+    function confirmDelete() {
+        if (confirm('Are you sure to delete this category?')) {
+
+            $.ajax({
+                type: 'POST',
+                url: $("#deleteForm").attr("action"),
+                data: $("#deleteForm").serialize(),
+                success: function (data) {
+                    console.log("SUCCESS : ", data),
+                        window.location.href = data;
+                },
+                error: function (xhr, status, error) { }
+            });
+        }
+        return false;
+    }
+</script> *@

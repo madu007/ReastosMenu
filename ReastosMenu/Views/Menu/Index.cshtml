@@ -1,0 +1,97 @@
+﻿@model List<ReastosMenu.Models.MenuModel>
+@* @model List<MenuModel> *@
+@{
+    Layout = "_AdminLayout";
+    int index = 0;
+}
+
+<partial name="_Notification" />
+
+<!-- Recent Sales Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">View Menus</h6>
+            <a href="/Menu/AddMenu">Add Menu</a>
+        </div>
+        <div class="table-responsive">
+            @if (Model != null && Model.Any())
+            {
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-white">
+                            <th scope="col">S/N</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var menu in Model)
+                        {
+                            <tr>
+                                @{
+                                    index++;
+                                }
+                                <td>
+                                    @index
+                                </td>
+                                <td>@menu.Title</td>
+                                <td>@menu.Description</td>
+                                <td>@menu.Price</td>
+                                <td>
+                                    @if (menu.ImagesUrl != null)
+                                    {
+                                        <img src="@menu.ImagesUrl" id="imageDisplay"  style="display:block; width: 70px; margin:auto;" />
+                                    }
+                                    @* <img class="rounded-square me-lg-2" src="@menu.ImagesUrl" alt="ImageMenu" style="width: 40px; height: 40px;"> *@
+                                </td>
+                                <td><a class="btn btn-sm btn-primary" href="/Menu/EditMenu/@menu.Id">Edit</a></td>
+                                <td>
+                                    <form method="post" asp-controller="Menu" asp-action="DeleteMenu" asp-route-id="@menu.Id">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No Menu found!</p>
+            }
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        const imageUploadElement = document.getElementById('imageUpload');
+        const imageUrlElement = document.getElementById('imageUrl');
+        const imageDisplayElement = document.getElementById('imageDisplay');
+
+        async function uploadFeaturedImage(e) {
+            console.log(e.target.files[0]);
+
+            let data = new FormData();
+            data.append('file', e.target.files[0]);
+
+            await fetch('/api/image', {
+                method: 'POST',
+                headers: {
+                    'Accept': '*/*',
+                },
+                body: data
+            }).then(Response => Response.json()).then(result => {
+                imageUrlElement.value = result.link;
+                imageDisplayElement.src = result.link;
+                imageDisplayElement.style.display = 'block';
+            });
+        }
+
+        imageUploadElement.addEventListener('change', uploadFeaturedImage);
+    </script>
+}

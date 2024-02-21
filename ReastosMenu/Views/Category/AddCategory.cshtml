@@ -1,0 +1,37 @@
+﻿@using ReastosMenu
+@model CategoryModel
+@{
+    Layout = "_AdminLayout";
+}
+<!-- Form Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Add Menu</h6>
+                <form asp-controller="Category" asp-action="AddCategory" method="post" enctype="multipart/form-data">
+                    <div class="form-floating mb-3">
+                        <input type="text" asp-for="Title" class="form-control" id="floatingInput" required
+                               placeholder="Title">
+                        <label for="floatingInput">Title</label>
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control" type="text" asp-for="Description" placeholder="Description" required
+                                  id="floatingTextarea" style="height: 100px;"></textarea>
+                        <label for="floatingTextarea">Description</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    @* <div class="mb-3">
+
+                        <input class="form-control bg-dark" type="file" name="Images" id="formFile">
+                    </div> *@
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Add Category</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Form End -->
